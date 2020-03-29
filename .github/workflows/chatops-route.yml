@@ -32,7 +32,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: |
-          Hey, ${{ github.event.comment.user.login }}!
+          Hey, @${{ github.event.comment.user.login }}!
           :rocket: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} is beginning! :tada:
 
     #- uses: actions/checkout@v2

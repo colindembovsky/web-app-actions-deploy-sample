@@ -32,7 +32,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: |
-          Hey, ${{ github.event.comment.user.login }}!
+          Hey, @${{ github.event.comment.user.login }}!
           :rocket: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} is beginning! :tada:
     
     #- uses: actions/checkout@v2
