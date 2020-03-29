@@ -26,6 +26,7 @@ jobs:
       
     - name: dotnet build and publish
       run: |
+        cd src
         dotnet build --configuration Release
         dotnet publish -c Release -o './site'
 
