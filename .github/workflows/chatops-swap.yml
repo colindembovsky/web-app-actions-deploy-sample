@@ -1,0 +1,26 @@
+name: ChatOps
+
+env:
+  RESOURCE_GROUP: cd-demoactions
+  LOCATION: westus2
+  PLAN_NAME: cd-demoactionsplan
+  SKU: S1
+  WEB_APP_NAME: cd-demoactions
+  SLOT_NAME: blue
+  DOTNET_VERSION: 3.1.100
+
+on:
+  issue_comment:
+    types: [ created, edited ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: contains(github.event.comment.body, '/swap')
+    
+    steps:
+    #- uses: actions/checkout@v2
+
+    - name: "Run SWAP steps"
+      if: contains(github.event.comment.body, '/deploy')
+      run: echo "------------- SWAP!!"
