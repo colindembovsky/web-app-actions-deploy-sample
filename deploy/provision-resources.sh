@@ -17,4 +17,6 @@ echo "Creating app service plan $planName with SKU $sku"
 az appservice plan create -g $rg -n $planName --sku $sku
 echo "Creating web app $webappName"
 az webapp create -g $rg -p $planName -n $webappName
+echo "Creating slot $slotName"
+az webapp deployment slot create -g $rg -n $webappName -s $slotName
 echo "Done!"
