@@ -1,0 +1,45 @@
+name: CI-CD
+
+env:
+  RESOURCE_GROUP: cd-demoactions
+  LOCATION: westus2
+  PLAN_NAME: cd-demoactionsplan
+  SKU: S1
+  WEB_APP_NAME: cd-demoactions
+  SLOT_NAME: blue
+  DOTNET_VERSION: 3.1.100
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }} 
+      
+    - name: dotnet build and publish
+      run: |
+        dotnet build --configuration Release
+        dotnet publish -c Release -o './site'
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Provision resourcesAZURE_WEBAPP_PACKAGE_PATH }}
+      run: deploy/provision-resources.sh '${{ env.RESOURCE_GROUP }}' '${{ env.LOCATION }}' '${{ env.PLAN_NAME }}' '${{ env.SKU }}' '${{ env.WEB_APP_NAME }}' '${{ env.SLOT_NAME }}'
+      
+    - name: 'Deploy to slot'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.WEB_APP_NAME }}
+        slot-name: ${{ env.SLOT_NAME }}
+        package: './site'
