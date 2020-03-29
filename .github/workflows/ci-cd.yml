@@ -10,7 +10,9 @@ env:
   DOTNET_VERSION: 3.1.100
 
 on:
-  push
+  push:
+    branches:
+      - master
 
 jobs:
   build:
