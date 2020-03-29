@@ -26,13 +26,24 @@ jobs:
         echo ::set-env name=SLOT_1_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=SLOT_2_NAME::"${BASH_REMATCH[2]}"
     
-    - name: Create comment
+    - name: Create starting comment
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: |
           Hey, @${{ github.event.comment.user.login }}!
-          :rocket: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} is beginning! :tada:
+          :rocket: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} is beginning! :rocket:
     
-    #- uses: actions/checkout@v2
+    - name: Swap slots
+      run: |
+        az webapp deployment slot swap -g '${{ env.RESOURCE_GROUP }}' -n '${{ env.WEB_APP_NAME }}' --slot '${{ env.SLOT_1_NAME }}' --target-slot '${{ env.SLOT_2_NAME }}'
+
+    - name: Create completed comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          Hey, @${{ github.event.comment.user.login }}!
+          :tada: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} completed! :tada:

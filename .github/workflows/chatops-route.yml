@@ -26,13 +26,28 @@ jobs:
         echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=PERCENTAGE::"${BASH_REMATCH[2]}"
     
-    - name: Create comment
+    - name: Create starting comment
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: |
           Hey, @${{ github.event.comment.user.login }}!
-          :rocket: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} is beginning! :tada:
+          :rocket: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} is beginning! :rocket:
 
-    #- uses: actions/checkout@v2
+    - name: Route traffic to slot
+      uses: colindembovsky/azure-webapp-route-traffic@v1.0.1
+      with: 
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        app-name: ${{ env.WEB_APP_NAME }}
+        slot-name: ${{ env.SLOT_NAME }}
+        percentage-traffic: ${{ env.PERCENTAGE }}
+
+    - name: Create completed comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          Hey, @${{ github.event.comment.user.login }}!
+          :tada: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} completed! :tada:
