@@ -31,10 +31,9 @@ jobs:
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        issue-number: ${{ github.event.comment.id }}
+        issue-number: ${{ github.event.issue.id }}
         body: |
-          Deployment to ${{ env.SLOT_NAME }} is beginning!
-        reaction-type: 'rocket'
+          :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :hooray:
 
     - name: "Run DEPLOY steps"
       run: echo "------------- DEPLOY to ${{ env.SLOT_NAME }}!!"
