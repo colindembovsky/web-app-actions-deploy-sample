@@ -16,14 +16,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, '/route')
+    if: contains(github.event.comment.body, '/route:')
     
     steps:
     #- uses: actions/checkout@v2
 
     - name: "Set env variables from chat message"
       run: |
-        pattern="^/deploy\:(\w+),(\d+)$"
+        pattern="^\/route\:(\.+)\,(.+)"
         [[ "${{ github.event.comment.body }}" =~ $pattern ]]
         echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=PERCENTAGE::"${BASH_REMATCH[2]}"

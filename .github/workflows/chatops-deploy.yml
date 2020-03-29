@@ -16,14 +16,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, '/deploy')
+    if: contains(github.event.comment.body, '/deploy:')
     
     steps:
     #- uses: actions/checkout@v2
 
     - name: "Set env variables from chat message"
       run: |
-        pattern="^/deploy\:(\w+)$"
+        pattern="^\/deploy\:(\.+)$"
         [[ "${{ github.event.comment.body }}" =~ $pattern ]]
         echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
     
