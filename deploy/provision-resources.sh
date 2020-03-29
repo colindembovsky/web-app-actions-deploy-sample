@@ -15,5 +15,6 @@ echo "Creating resource group $rg in $location"
 az group create -l $location -n $rg
 echo "Creating app service plan $planName with SKU $sku"
 az appservice plan create -g $rg -n $planName --sku $sku
-echo "Creating web app $webApp"
-az webapp create -g $rg -p $plan -n $webapp
+echo "Creating web app $webappName"
+az webapp create -g $rg -p $planName -n $webappName
+echo "Done!"

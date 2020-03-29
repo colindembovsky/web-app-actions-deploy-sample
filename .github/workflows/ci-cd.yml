@@ -35,7 +35,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    - name: Provision resourcesAZURE_WEBAPP_PACKAGE_PATH }}
+    - name: 'Provision resources'
       run: deploy/provision-resources.sh '${{ env.RESOURCE_GROUP }}' '${{ env.LOCATION }}' '${{ env.PLAN_NAME }}' '${{ env.SKU }}' '${{ env.WEB_APP_NAME }}' '${{ env.SLOT_NAME }}'
       
     - name: 'Deploy to slot'
