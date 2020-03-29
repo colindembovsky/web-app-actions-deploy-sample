@@ -19,8 +19,6 @@ jobs:
     if: contains(github.event.comment.body, '/route:')
     
     steps:
-    #- uses: actions/checkout@v2
-
     - name: "Set env variables from chat message"
       run: |
         pattern="^\/route\:(\w+)\,(.+)"
@@ -28,5 +26,13 @@ jobs:
         echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=PERCENTAGE::"${BASH_REMATCH[2]}"
     
-    - name: "Run ROUTE steps"
-      run: echo "------------- ROUTE to ${{ env.SLOT_NAME }} with ${{ env.PERCENTAGE }} !!"
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          Hey, ${{ github.event.comment.user.login }}!
+          :rocket: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} is beginning! :tada:
+
+    #- uses: actions/checkout@v2

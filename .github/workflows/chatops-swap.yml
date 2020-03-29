@@ -19,8 +19,6 @@ jobs:
     if: contains(github.event.comment.body, '/swap:')
     
     steps:
-    #- uses: actions/checkout@v2
-
     - name: "Set env variables from chat message"
       run: |
         pattern="^\/swap\:(\w+)\,(\w+)$"
@@ -28,5 +26,13 @@ jobs:
         echo ::set-env name=SLOT_1_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=SLOT_2_NAME::"${BASH_REMATCH[2]}"
     
-    - name: "Run SWAP steps"
-      run: echo "------------- SWAP ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} !!"
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          Hey, ${{ github.event.comment.user.login }}!
+          :rocket: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} is beginning! :tada:
+    
+    #- uses: actions/checkout@v2

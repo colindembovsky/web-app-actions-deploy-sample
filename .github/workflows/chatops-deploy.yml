@@ -19,8 +19,6 @@ jobs:
     if: contains(github.event.comment.body, '/deploy:')
     
     steps:
-    #- uses: actions/checkout@v2
-
     - name: "Set env variables from chat message"
       run: |
         pattern="^\/deploy\:(\w+)$"
@@ -33,7 +31,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         issue-number: ${{ github.event.issue.number }}
         body: |
-          :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :hooray:
+          Hey, ${{ github.event.comment.user.login }}!
+          :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :tada:
 
-    - name: "Run DEPLOY steps"
-      run: echo "------------- DEPLOY to ${{ env.SLOT_NAME }}!!"
+    #- uses: actions/checkout@v2
