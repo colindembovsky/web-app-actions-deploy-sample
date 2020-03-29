@@ -1,4 +1,4 @@
-name: ChatOps
+name: ChatOps-ROUTE
 
 env:
   RESOURCE_GROUP: cd-demoactions

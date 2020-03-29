@@ -1,4 +1,4 @@
-name: ChatOps
+name: ChatOps-SWAP
 
 env:
   RESOURCE_GROUP: cd-demoactions
