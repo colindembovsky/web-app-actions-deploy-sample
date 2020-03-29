@@ -23,7 +23,7 @@ jobs:
 
     - name: "Set env variables from chat message"
       run: |
-        pattern="^\/swap\:(\.+)\,(\.+)$"
+        pattern="^\/swap\:(\w+)\,(\w+)$"
         [[ "${{ github.event.comment.body }}" =~ $pattern ]]
         echo ::set-env name=SLOT_1_NAME::"${BASH_REMATCH[1]}"
         echo ::set-env name=SLOT_2_NAME::"${BASH_REMATCH[2]}"
