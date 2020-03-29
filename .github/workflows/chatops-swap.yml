@@ -21,6 +21,12 @@ jobs:
     steps:
     #- uses: actions/checkout@v2
 
+    - name: "Set env variables from chat message"
+      run: |
+        pattern="^/deploy\:(\w+),(\w+)$"
+        [[ "${{ github.event.comment.body }}" =~ $pattern ]]
+        echo ::set-env name=SLOT_1_NAME::"${BASH_REMATCH[1]}"
+        echo ::set-env name=SLOT_2_NAME::"${BASH_REMATCH[2]}"
+    
     - name: "Run SWAP steps"
-      if: contains(github.event.comment.body, '/deploy')
-      run: echo "------------- SWAP!!"
+      run: echo "------------- SWAP ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} !!"
