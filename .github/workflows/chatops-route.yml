@@ -33,7 +33,12 @@ jobs:
         issue-number: ${{ github.event.issue.number }}
         body: |
           Hey, @${{ github.event.comment.user.login }}!
-          :rocket: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} is beginning! :rocket:
+          :rocket: Operation to route ${{ env.PERCENTAGE }}% traffic to ${{ env.SLOT_NAME }} is beginning! :rocket:
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Route traffic to slot
       uses: colindembovsky/azure-webapp-route-traffic@v1.0.1
@@ -50,4 +55,4 @@ jobs:
         issue-number: ${{ github.event.issue.number }}
         body: |
           Hey, @${{ github.event.comment.user.login }}!
-          :tada: Operation to route ${{ env.PERCENTAGE }} to ${{ env.SLOT_NAME }} completed! :tada:
+          :tada: Operation to route ${{ env.PERCENTAGE }}% traffic to ${{ env.SLOT_NAME }} completed! :tada:

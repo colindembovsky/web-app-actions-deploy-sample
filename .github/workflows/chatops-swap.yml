@@ -35,6 +35,11 @@ jobs:
           Hey, @${{ github.event.comment.user.login }}!
           :rocket: Operation to swap ${{ env.SLOT_1_NAME }} with ${{ env.SLOT_2_NAME }} is beginning! :rocket:
     
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
     - name: Swap slots
       run: |
         az webapp deployment slot swap -g '${{ env.RESOURCE_GROUP }}' -n '${{ env.WEB_APP_NAME }}' --slot '${{ env.SLOT_1_NAME }}' --target-slot '${{ env.SLOT_2_NAME }}'
