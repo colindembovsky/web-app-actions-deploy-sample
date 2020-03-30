@@ -21,7 +21,10 @@ jobs:
 
     - run: |
         echo "Hello"
-        echo ${{ github.event.commit_id }}
+        echo '${{ github.event.comment.body }}'
+        echo '${{ github.event.issue.sha }}'
+        echo '${{ github.event.issue.sha }}'
+        echo '${{ github.event.commit.tree.sha }}'
 
     # - name: "Set env variables from chat message"
     #   run: |
