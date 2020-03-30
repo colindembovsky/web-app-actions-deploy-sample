@@ -21,7 +21,7 @@ jobs:
 
     - run: |
         echo "Hello"
-        echo ${{ github.event.issue.commit_id }}
+        echo ${{ github.event.commit_id }}
 
     # - name: "Set env variables from chat message"
     #   run: |
