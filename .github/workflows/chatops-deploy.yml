@@ -22,6 +22,7 @@ jobs:
     - run: |
         echo "Hello"
         echo 'branch is: pull/${{ github.event.issue.number }}/head'
+        echo 'sha is: pull/${{ github.event.issue.head.sha }}'
 
     # - name: "Set env variables from chat message"
     #   run: |
