@@ -14,7 +14,7 @@ on:
     types: [ created, edited ]
 
 jobs:
-  build:
+  swap:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.body, '/swap:')
     
