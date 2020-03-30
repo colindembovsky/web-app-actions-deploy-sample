@@ -19,14 +19,12 @@ jobs:
     
     steps:
 
-    - run: |
-        echo "Hello"
-        echo 'branch is: pull/${{ github.event.issue.number }}/head'
-    
     - uses: actions/checkout@v2
+    - name: Checkout PR code
+      uses: dawidd6/action-checkout-pr@v1
       with:
-        ref: 'pull/${{ github.event.issue.number }}/head'
-    
+        pr: ${{ github.event.issue.number }}
+
     - run: |
         cat src/Views/Home/Index.cshtml
 
