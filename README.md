@@ -2,6 +2,8 @@
 
 Demonstrates CI/CD for Azure Web Apps using GitHub Actions and ChatOps.
 
+I made a [video](https://www.youtube.com/watch?v=Yo6O55OQSIA) of this process.
+
 ## Overview
 In this demo, the process is as follows:
 
