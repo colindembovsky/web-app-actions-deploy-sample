@@ -41,8 +41,6 @@ jobs:
           Hey, @${{ github.event.comment.user.login }}!
           :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :rocket:
 
-    - uses: actions/checkout@v2
-    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
