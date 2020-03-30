@@ -18,54 +18,61 @@ jobs:
     if: contains(github.event.comment.body, '/deploy:')
     
     steps:
-    - name: "Set env variables from chat message"
-      run: |
-        pattern="^\/deploy\:(\w+)$"
-        [[ "${{ github.event.comment.body }}" =~ $pattern ]]
-        echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
-    
-    - name: Create starting comment
-      uses: peter-evans/create-or-update-comment@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-          Hey, @${{ github.event.comment.user.login }}!
-          :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :rocket:
 
-    - uses: actions/checkout@v2
+    - run: |
+        echo "Hello"
+        echo ${{ github.event.issue.commit_id }}
+
+    # - name: "Set env variables from chat message"
+    #   run: |
+    #     pattern="^\/deploy\:(\w+)$"
+    #     [[ "${{ github.event.comment.body }}" =~ $pattern ]]
+    #     echo ::set-env name=SLOT_NAME::"${BASH_REMATCH[1]}"
     
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }} 
+    # - name: Create starting comment
+    #   uses: peter-evans/create-or-update-comment@v1
+    #   with:
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     issue-number: ${{ github.event.issue.number }}
+    #     body: |
+    #       Hey, @${{ github.event.comment.user.login }}!
+    #       :rocket: Deployment to ${{ env.SLOT_NAME }} is beginning! :rocket:
+
+    # - uses: actions/checkout@v2
+    
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: ${{ env.DOTNET_VERSION }} 
       
-    - name: dotnet build and publish
-      run: |
-        cd src
-        dotnet build --configuration Release
-        dotnet publish -c Release -o '../site'
+    # - name: dotnet build and publish
+    #   run: |
+    #     cd src
+    #     dotnet build --configuration Release
+    #     dotnet publish -c Release -o '../site'
 
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - name: 'Login via Azure CLI'
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    - name: 'Provision resources'
-      run: deploy/provision-resources.sh '${{ env.RESOURCE_GROUP }}' '${{ env.LOCATION }}' '${{ env.PLAN_NAME }}' '${{ env.SKU }}' '${{ env.WEB_APP_NAME }}' '${{ env.SLOT_NAME }}'
+    # - name: 'Provision resources'
+    #   run: deploy/provision-resources.sh '${{ env.RESOURCE_GROUP }}' '${{ env.LOCATION }}' '${{ env.PLAN_NAME }}' '${{ env.SKU }}' '${{ env.WEB_APP_NAME }}' '${{ env.SLOT_NAME }}'
       
-    - name: 'Deploy to slot'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.WEB_APP_NAME }}
-        slot-name: ${{ env.SLOT_NAME }}
-        package: './site'
+    # - name: 'Deploy to slot'
+    #   id: deploy_step
+    #   uses: azure/webapps-deploy@v2
+    #   with: 
+    #     app-name: ${{ env.WEB_APP_NAME }}
+    #     slot-name: ${{ env.SLOT_NAME }}
+    #     package: './site'
     
-    - name: Create completed comment
-      uses: peter-evans/create-or-update-comment@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-          Hey, @${{ github.event.comment.user.login }}!
-          :tada: Deployment to ${{ env.SLOT_NAME }} completed! :tada:
+    # - name: Create completed comment
+    #   uses: peter-evans/create-or-update-comment@v1
+    #   with:
+    #     token: ${{ secrets.GITHUB_TOKEN }}
+    #     issue-number: ${{ github.event.issue.number }}
+    #     body: |
+    #       Hey, @${{ github.event.comment.user.login }}!
+    #       :tada: Deployment to ${{ env.SLOT_NAME }} completed! :tada:
+    #       You should be able to browse it at [${{ steps.deploy_step.outputs.webapp-url }}](${{ steps.deploy_step.outputs.webapp-url }}). Happy testing!
